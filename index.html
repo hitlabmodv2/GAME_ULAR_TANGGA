@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Ular Tangga</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+    <div class="container">
+        <div class="header">
+            <h1>🐍 Game Ular Tangga 🪜</h1>
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+        </div>
+        
+        <div class="game-setup" id="gameSetup">
+            <div class="mode-selection-intro">
+                <h2>🎮 Game Ular Tangga</h2>
+                <p>Selamat datang! Siap untuk bermain?</p>
+                <div class="main-buttons">
+                    <button id="openModeModal" class="open-mode-btn">
+                        🎯 Pilih Mode Permainan
+                    </button>
+                    <button id="openDeveloperModal" class="developer-btn">
+                        👨‍💻 MY DEVELOPER
+                    </button>
+                </div>
+            </div>
+            
+            <div class="settings-panel" id="settingsPanel">
+                <h3>⚙️ Pengaturan</h3>
+                <div class="setting-item">
+                    <label>Tema Tampilan:</label>
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="light">☀️ Cerah</button>
+                        <button class="theme-btn" data-theme="dark">🌙 Gelap</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label>Tingkat Kesulitan:</label>
+                    <select id="difficultySelect" class="difficulty-select">
+                        <option value="easy">😊 Mudah (Sedikit Ular)</option>
+                        <option value="medium" selected>😐 Sedang (Normal)</option>
+                        <option value="hard">😤 Sulit (Banyak Ular)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Jumlah Bot (Pemain vs Bot - Max 3):</label>
+                    <select id="pvbBotCountSelect" class="difficulty-select">
+                        <option value="1" selected>1 Bot</option>
+                        <option value="2">2 Bot</option>
+                        <option value="3">3 Bot</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Jumlah Bot (Bot vs Bot - Max 4):</label>
+                    <select id="bvbBotCountSelect" class="difficulty-select">
+                        <option value="2" selected>2 Bot</option>
+                        <option value="3">3 Bot</option>
+                        <option value="4">4 Bot</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Efek Suara:</label>
+                    <div class="sound-controls">
+                        <button class="sound-btn active" id="soundToggle">🔊 Nyalakan</button>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+                        <span id="volumeValue">70%</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label>Kecepatan Animasi:</label>
+                    <select id="animationSpeedSelect" class="difficulty-select">
+                        <option value="fast">⚡ Cepat</option>
+                        <option value="medium" selected>🐌 Sedang</option>
+                        <option value="slow">🐢 Lambat</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Kecepatan Permainan (Bot vs Bot):</label>
+                    <select id="gameSpeedSelect" class="difficulty-select">
+                        <option value="fast">🚀 Cepat (1 detik)</option>
+                        <option value="medium" selected>⏱️ Sedang (2 detik)</option>
+                        <option value="slow">🐌 Lambat (4 detik)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Desain Map Ular Tangga:</label>
+                    <select id="mapDesignSelect" class="difficulty-select">
+                        <option value="random" selected>🎲 Random - Peta Acak Setiap Game</option>
+                        <option value="default">🏠 Default - Peta Standar Klasik</option>
+                        <option value="1">🗺️ Map #1 - Pemula Ramah</option>
+                        <option value="2">🗺️ Map #2 - Tantangan Sedang</option>
+                        <option value="3">🗺️ Map #3 - Petualangan Seru</option>
+                        <option value="4">🗺️ Map #4 - Strategis Pro</option>
+                        <option value="5">🗺️ Map #5 - Berimbang Perfect</option>
+                        <option value="6">🗺️ Map #6 - Menantang Ekstrim</option>
+                        <option value="7">🗺️ Map #7 - Sulit Master</option>
+                        <option value="8">🗺️ Map #8 - Hardcore Elite</option>
+                        <option value="9">🗺️ Map #9 - Legendaris Epic</option>
+                        <option value="10">🗺️ Map #10 - Ultimate Boss</option>
+                    </select>
+                </div>
+                
+                <div class="settings-buttons">
+                    <button id="saveSettings" class="settings-btn save-btn">💾 Simpan Pengaturan</button>
+                    <button id="defaultSettings" class="settings-btn default-btn">🔄 Pengaturan Default</button>
+                </div>
+            </div>
+            
+            </div>
+
+        <!-- Mode Selection Modal -->
+        <div class="mode-modal" id="modeModal" style="display: none;">
+            <div class="mode-modal-content">
+                <div class="mode-modal-header">
+                    <h2>🎯 Pilih Mode Permainan</h2>
+                    <button class="mode-modal-close" id="closeModeModal">✖️</button>
+                </div>
+                
+                <div class="mode-selection">
+                    <div class="mode-intro-text">
+                        <p>Pilih mode permainan yang Anda inginkan. Setiap mode memiliki pengaturan khusus yang dapat disesuaikan.</p>
+                    </div>
+                    
+                    <div class="mode-cards">
+                        <div class="mode-card enhanced" id="playerVsBot">
+                            <div class="mode-icon">👤🆚🤖</div>
+                            <div class="mode-title">Pemain vs Bot</div>
+                            <div class="mode-description">
+                                Bermain sebagai pemain tunggal melawan komputer. Anda dapat mengatur jumlah bot lawan sesuai keinginan.
+                            </div>
+                            <div class="mode-settings-preview">
+                                <div class="setting-preview">
+                                    <span class="setting-label">🤖 Jumlah Bot:</span>
+                                    <span class="setting-value">1-3 Bot (Dapat diatur)</span>
+                                </div>
+                                <div class="setting-preview">
+                                    <span class="setting-label">🎮 Kontrol:</span>
+                                    <span class="setting-value">Manual untuk pemain</span>
+                                </div>
+                                <div class="setting-preview">
+                                    <span class="setting-label">⚡ Kecepatan:</span>
+                                    <span class="setting-value">Real-time interaktif</span>
+                                </div>
+                            </div>
+                            <div class="mode-features">
+                                <span class="feature">🎯 Interaktif</span>
+                                <span class="feature">🎲 Kontrol Manual</span>
+                                <span class="feature">🏆 Kompetitif</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mode-card enhanced" id="botVsBot">
+                            <div class="mode-icon">🤖🆚🤖</div>
+                            <div class="mode-title">Simulasi Bot vs Bot</div>
+                            <div class="mode-description">
+                                Tonton simulasi pertandingan otomatis antar bot. Cocok untuk observasi strategi dan analisis permainan.
+                            </div>
+                            <div class="mode-settings-preview">
+                                <div class="setting-preview">
+                                    <span class="setting-label">🤖 Jumlah Bot:</span>
+                                    <span class="setting-value">2-4 Bot (Dapat diatur)</span>
+                                </div>
+                                <div class="setting-preview">
+                                    <span class="setting-label">🎮 Kontrol:</span>
+                                    <span class="setting-value">Otomatis penuh</span>
+                                </div>
+                                <div class="setting-preview">
+                                    <span class="setting-label">⚡ Kecepatan:</span>
+                                    <span class="setting-value">Cepat/Sedang/Lambat</span>
+                                </div>
+                            </div>
+                            <div class="mode-features">
+                                <span class="feature">📊 Simulasi</span>
+                                <span class="feature">⚡ Auto Play</span>
+                                <span class="feature">📈 Analisis</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mode-actions">
+                        <button id="showSettings" class="mode-action-btn settings-btn">
+                            ⚙️ Pengaturan Lanjutan & Kustomisasi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Modal -->
+        <div class="developer-modal" id="developerModal" style="display: none;">
+            <div class="developer-modal-content">
+                <div class="developer-modal-header">
+                    <h2>👨‍💻 MY DEVELOPER</h2>
+                    <button class="developer-modal-close" id="closeDeveloperModal">✖️</button>
+                </div>
+                
+                <div class="developer-content">
+                    <div class="developer-avatar">
+                        <div class="avatar-circle">
+                            <span class="avatar-emoji">👨‍💻</span>
+                        </div>
+                        <h3 class="developer-name">Wilykun</h3>
+                        <p class="developer-title">Full Stack Developer & Game Creator</p>
+                    </div>
+                    
+                    <div class="developer-description">
+                        <p>🎮 Pengembang berpengalaman yang berfokus pada pembuatan game interaktif dan aplikasi web modern. Spesialisasi dalam JavaScript, HTML5, CSS3, dan teknologi web terkini.</p>
+                        <p>✨ Setiap project dibuat dengan dedikasi tinggi untuk memberikan pengalaman terbaik bagi pengguna.</p>
+                    </div>
+                    
+                    <div class="developer-links">
+                        <div class="link-section">
+                            <h4>📱 Kontak & Sosial Media</h4>
+                            <div class="link-grid">
+                                <a href="https://wa.me/6289688206739" target="_blank" class="dev-link whatsapp">
+                                    <span class="link-icon">📱</span>
+                                    <div class="link-info">
+                                        <span class="link-title">WhatsApp</span>
+                                        <span class="link-desc">Chat langsung dengan developer</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="https://youtube.com/@ukosamasomoni1956" target="_blank" class="dev-link youtube">
+                                    <span class="link-icon">📺</span>
+                                    <div class="link-info">
+                                        <span class="link-title">YouTube Channel</span>
+                                        <span class="link-desc">Tutorial & konten menarik</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="mailto:kunwily1994@gmail.com" class="dev-link email">
+                                    <span class="link-icon">📧</span>
+                                    <div class="link-info">
+                                        <span class="link-title">Email</span>
+                                        <span class="link-desc">kunwily1994@gmail.com</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="https://whatsapp.com/channel/0029VaiyhS37IUYSuDJoJj1L" target="_blank" class="dev-link channel">
+                                    <span class="link-icon">📢</span>
+                                    <div class="link-info">
+                                        <span class="link-title">Info Channel</span>
+                                        <span class="link-desc">Seputar Anime & Update Terbaru</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="developer-skills">
+                            <h4>🛠️ Keahlian & Teknologi</h4>
+                            <div class="skills-grid">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">HTML5 & CSS3</span>
+                                <span class="skill-tag">Game Development</span>
+                                <span class="skill-tag">Responsive Design</span>
+                                <span class="skill-tag">UI/UX Design</span>
+                                <span class="skill-tag">Web Animation</span>
+                            </div>
+                        </div>
+                        
+                        <div class="developer-quote">
+                            <blockquote>
+                                "Setiap baris kode adalah karya seni, setiap bug adalah pelajaran berharga, dan setiap project adalah kesempatan untuk menciptakan sesuatu yang menakjubkan!"
+                            </blockquote>
+                            <cite>- Wilykun</cite>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea" style="display: none;">
+            <div class="game-info">
+                <div class="players-info" id="playersInfo">
+                    <!-- Players will be dynamically added here -->
+                </div>
+                
+                <div class="dice-area">
+                    <div class="dice-container">
+                        <div class="dice" id="dice">
+                            <div class="dice-face">🎲</div>
+                        </div>
+                    </div>
+                    <div class="dice-result" id="diceResult">-</div>
+                    <div class="dice-controls">
+                        <button id="rollDice" class="roll-btn">🎲 Lempar Dadu</button>
+                        <button id="pauseGame" class="pause-btn">⏸️ Jeda</button>
+                        <button id="autoPlay" class="auto-btn" style="display: none;">▶️ Auto Play</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div class="board" id="board"></div>
+            </div>
+
+            <div class="statistics-panel">
+                <h3>📊 Statistik Permainan</h3>
+                <div class="statistics-content" id="statisticsContent">
+                    <div class="stats-overview">
+                        <div class="stat-item">⏱️ Waktu: 0:00</div>
+                        <div class="stat-item">🎲 Total Lemparan: 0</div>
+                        <div class="stat-item">🐍 Total Kena Ular: 0</div>
+                        <div class="stat-item">🪜 Total Naik Tangga: 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-log">
+                <h3>📋 Log Permainan</h3>
+                <div class="log-content" id="logContent"></div>
+                <div class="log-buttons">
+                    <button id="downloadLog" class="download-log-btn">📥 Download Log</button>
+                    <button id="clearLog" class="clear-btn">🗑️ Bersihkan Log</button>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button id="resetGame" class="control-btn">🔄 Reset Game</button>
+                <button id="backToMenu" class="control-btn">🏠 Menu</button>
+            </div>
+        </div>
+
+        <div class="winner-modal" id="winnerModal" style="display: none;">
+            <div class="modal-content">
+                <h2>🎉 Selamat!</h2>
+                <p id="winnerText"></p>
+                <div class="modal-buttons">
+                    <button id="playAgain" class="modal-btn">🎮 Main Lagi</button>
+                    <button id="backToMenuFromModal" class="modal-btn">🏠 Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://wa.me/6289688206739" target="_blank" class="footer-link">Wilykun</a></p>
+        </div>
+    </footer>
+</body>
+</html>
